@@ -88,7 +88,7 @@ if [ $# != 0 ] ; then
         DOCKER=1
         shift 1
         ;;
-      --docker-image-digest)
+      --docker-image-hash)
         DOCKER_IMAGE_HASH="$2"
         shift 2
         ;;
@@ -205,7 +205,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get --no-install-recommends -y install $addpkg
 
 RUN useradd -ms /bin/bash -U $DISTRO
-USER $DISTRO:$DISTRO
+RUN adduser $DISTRO sudo
+RUN echo "${DISTRO}:${DISTRO}" | chpasswd
+USER $DISTRO
 WORKDIR /home/$DISTRO
 
 CMD ["sleep", "infinity"]
