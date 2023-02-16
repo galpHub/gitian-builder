@@ -203,6 +203,9 @@ FROM $base_image
 ENV DEBIAN_FRONTEND=noninteractive
 # RUN echo 'Acquire::http { Proxy "$MIRROR_BASE"; };' > /etc/apt/apt.conf.d/50cacher
 RUN apt-get update && apt-get --no-install-recommends -y install $addpkg
+RUN apt-get install -y mingw-w64 g++-mingw-w64 
+RUN update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
+RUN update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
 
 RUN useradd -ms /bin/bash -U $DISTRO
 RUN adduser $DISTRO sudo
